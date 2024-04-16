@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, "Dash");
         wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
-        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
+        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack1");
     }
 
     private void Start()
