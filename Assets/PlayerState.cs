@@ -27,6 +27,8 @@ public class PlayerState
     {
         player.anim.SetBool(animBoolName, true);
         rb = player.rb;
+        triggerCalled = false;
+
         /*Debug.Log("엔터야" + animBoolName);*/
     }
 
@@ -38,12 +40,14 @@ public class PlayerState
         yInput = Input.GetAxisRaw("Vertical");
 
         player.anim.SetFloat("yVelocity", rb.velocity.y);
+
         /*Debug.Log("업데이트" + animBoolName);*/
     }
 
     public virtual void Exit()
     {
         player.anim.SetBool(animBoolName, false);
+
         /*Debug.Log("엑시트" + animBoolName);*/
     }
 

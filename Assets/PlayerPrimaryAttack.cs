@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerPrimaryAttack : PlayerState
 {
-    private int noOfClicks = 0;
-    private float lastClickedTime = 0;
-    public float maxComboDelay;
+    private int comboCounter;
+
+    private float lastTimeAttacked;
+    private float comboWindow = 2;
 
     public PlayerPrimaryAttack(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
@@ -15,50 +16,47 @@ public class PlayerPrimaryAttack : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
+        {
+            comboCounter = 0;
+        }
+
+        float attackDir = player.facingDir;
+
+        if (xInput != 0)
+        {
+            attackDir = xInput;
+        }
+
+        player.anim.SetInteger("ComboCounter", comboCounter);
+        player.SetVelocity(player.attackMovement[comboCounter].x * attackDir, player.attackMovement[comboCounter].y);
+
+        stateTimer = 0.1f;
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        player.StartCoroutine("BusyFor", 0.1f);
+
+        comboCounter++;
+        lastTimeAttacked = Time.time;
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (Time.time - lastClickedTime > maxComboDelay)
+        if (stateTimer < 0)
         {
-            noOfClicks = 0;
+            player.ZeroVelocity();
         }
 
-        lastClickedTime = Time.time;
-        noOfClicks++;
-
-        if  (noOfClicks == 1)
+        if (triggerCalled)
         {
-            player.anim.SetBool("Attack1", true);
+            stateMachine.ChangeState(player.idleState);
         }
-
-        else if (noOfClicks == 2)
-        {
-            player.anim.SetBool("Attack2", true);
-        }
-
-        else if (noOfClicks == 3)
-        {
-            player.anim.SetBool("Attack3", true);
-        }
-        else if (noOfClicks > 3)
-        {
-            player.anim.SetBool("Attack1", false);
-            player.anim.SetBool("Attack2", false);
-            player.anim.SetBool("Attack3", false);
-            noOfClicks = 0;
-        }
-
-        //if (triggerCalled)
-        //{
-        //    stateMachine.ChangeState(player.idleState);
-        //}
     }
 }
