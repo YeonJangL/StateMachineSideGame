@@ -16,6 +16,7 @@ public class PlayerPrimaryAttack : PlayerState
     public override void Enter()
     {
         base.Enter();
+        xInput = 0; // -> 버그 때매 넣어줌
 
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
         {

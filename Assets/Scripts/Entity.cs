@@ -7,9 +7,17 @@ public class Entity : MonoBehaviour
     #region 컴포넌트
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+    public EntityFX fx { get; private set; }
     #endregion
 
+    [Header("Knockback info")]
+    [SerializeField] protected Vector2 knockbackDirecion;
+    [SerializeField] protected float knockbackDuration;
+    protected bool isKnocked;
+
     [Header("Collision info")]
+    public Transform attackCheck;
+    public float attackCheckRadius;
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected Transform wallCheck;
@@ -26,6 +34,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Start()
     {
+        fx = GetComponent<EntityFX>();
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -35,11 +44,42 @@ public class Entity : MonoBehaviour
 
     }
 
+    public virtual void Damage()
+    {
+        fx.StartCoroutine("FlashFX");
+        StartCoroutine("HitKnockback");
+        Debug.Log(gameObject.name + "대미지");
+    }
+
+    protected virtual IEnumerator HitKnockback()
+    {
+        isKnocked = true;
+
+        rb.velocity = new Vector2(knockbackDirecion.x * -facingDir, knockbackDirecion.y);
+
+        yield return new WaitForSeconds(knockbackDuration);
+
+        isKnocked = false;
+    }
+
     #region Velocity
-    public void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
+    public void ZeroVelocity()
+    {
+        if (isKnocked)
+        {
+            return;
+        }
+
+        rb.velocity = new Vector2(0, 0);
+    }
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
+        if (isKnocked)
+        {
+            return;
+        }
+
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
@@ -53,6 +93,7 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
     #endregion
 
