@@ -30,7 +30,7 @@ public class PlayerIdleState : PlayerGroundedState
             return;
         }
 
-        if (xInput != 0) // Input.GetKeyDown(KeyCode.N)
+        if (xInput != 0 /*&& !player.isBusy*/) // Input.GetKeyDown(KeyCode.N)
         {
             player.stateMachine.ChangeState(player.moveState);
         }

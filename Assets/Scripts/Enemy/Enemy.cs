@@ -16,7 +16,7 @@ public class Enemy : Entity
     [Header("Move info")]
     public float moveSpeed;
     public float idleTime;
-    public float batttleTime;
+    public float battleTime;
 
     [Header("Attack info")]
     public float attackDistance;
@@ -51,7 +51,7 @@ public class Enemy : Entity
         counterImage.SetActive(false);
     }
 
-    protected virtual bool CanBeStunned()
+    public virtual bool CanBeStunned()
     {
         if (canBeStunned)
         {
@@ -61,7 +61,7 @@ public class Enemy : Entity
         return false;
     }
 
-    public virtual void AnimationFinshTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
     public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 50, whatIsPlayer);
 
@@ -70,6 +70,6 @@ public class Enemy : Entity
         base.OnDrawGizmos();
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y, transform.position.z));
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
     }
 }

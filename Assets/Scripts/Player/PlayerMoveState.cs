@@ -27,7 +27,7 @@ public class PlayerMoveState : PlayerGroundedState
 
         if (xInput == 0 || player.IsWallDetected()) // Input.GetKeyDown(KeyCode.N)
         {
-            player.stateMachine.ChangeState(player.idleState);
+            stateMachine.ChangeState(player.idleState);
         }
     }
 }

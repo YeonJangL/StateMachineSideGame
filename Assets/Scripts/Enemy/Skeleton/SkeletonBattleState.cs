@@ -17,7 +17,7 @@ public class SkeletonBattleState : EnemyState
     {
         base.Enter();
 
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = PlayerManager.instance.player.transform;
     }
     public override void Update()
     {
@@ -25,7 +25,7 @@ public class SkeletonBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
-            stateTimer = enemy.batttleTime;
+            stateTimer = enemy.battleTime;
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {

@@ -11,7 +11,7 @@ public class Entity : MonoBehaviour
     #endregion
 
     [Header("Knockback info")]
-    [SerializeField] protected Vector2 knockbackDirecion;
+    [SerializeField] protected Vector2 knockbackDirection;
     [SerializeField] protected float knockbackDuration;
     protected bool isKnocked;
 
@@ -55,7 +55,7 @@ public class Entity : MonoBehaviour
     {
         isKnocked = true;
 
-        rb.velocity = new Vector2(knockbackDirecion.x * -facingDir, knockbackDirecion.y);
+        rb.velocity = new Vector2(knockbackDirection.x * -facingDir, knockbackDirection.y);
 
         yield return new WaitForSeconds(knockbackDuration);
 
@@ -92,7 +92,7 @@ public class Entity : MonoBehaviour
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
         Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
     #endregion
@@ -111,7 +111,9 @@ public class Entity : MonoBehaviour
         {
             Flip();
         }
-        else if (rb.velocity.x < 0 && facingRight)
+
+        // rb.velocity.x -> _x
+        else if (_x < 0 && facingRight)
         {
             Flip();
         }

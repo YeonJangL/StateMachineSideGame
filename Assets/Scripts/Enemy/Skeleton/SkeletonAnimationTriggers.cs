@@ -8,7 +8,7 @@ public class SkeletonAnimationTriggers : MonoBehaviour
 
     private void AnimationTrigger()
     {
-        enemy.AnimationFinshTrigger();
+        enemy.AnimationFinishTrigger();
     }
 
     private void AttackTrigger()

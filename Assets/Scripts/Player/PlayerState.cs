@@ -51,7 +51,7 @@ public class PlayerState
         /*Debug.Log("¿¢½ÃÆ®" + animBoolName);*/
     }
 
-    public virtual void AnimaionFinishTriiger()
+    public virtual void AnimationFinishTrigger()
     {
         triggerCalled = true;
     }

@@ -128,15 +128,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.26666668
-    functionName: CloseCounterWindow
+  - time: 0.46666667
+    functionName: AttackTrigger
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.46666667
-    functionName: AttackTrigger
+  - time: 0.93333334
+    functionName: CloseCounterWindow
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
